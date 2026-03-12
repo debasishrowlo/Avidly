@@ -692,8 +692,9 @@ function ResourcesPage({ t }) {
             { name: "Meta", url: "https://us.meta.talentnet.community/jobs/search", color: "#0081FB", initial: "M" },
             { name: "Apple", url: "https://lnkd.in/e49UAQkk", color: "#555555", initial: "A" },
             { name: "Airbnb", url: "https://lnkd.in/exGTKXbt", color: "#FF385C", initial: "A" },
+            { name: "Insight Global", url: "https://jobs.insightglobal.com/", color: "#0057B8", initial: "IG" },
           ].map((co, i) => {
-            const cColors = [t.warm, t.accent, t.pop, t.violet, t.pop];
+            const cColors = [t.warm, t.accent, t.pop, t.violet, t.pop, t.accent];
             return (
               <a key={co.name} href={co.url} target="_blank" rel="noopener noreferrer"
                 style={{ background: t.bgCard, borderRadius: 14, border: `1.5px solid ${t.border}`, padding: "20px", textDecoration: "none", display: "flex", alignItems: "center", gap: 14, transition: "all 0.25s", boxShadow: t.shadow }}
@@ -717,6 +718,9 @@ function ResourcesPage({ t }) {
           <span style={{ width: 36, height: 4, background: t.gradientTealPop, borderRadius: 2, display: "inline-block" }} />
           Comp Tools
         </h3>
+        <p style={{ fontSize: 15, color: t.textMuted, lineHeight: 1.7, fontFamily: "'DM Sans', sans-serif", marginBottom: 20, maxWidth: 640 }}>
+          Knowledge is power when it comes to negotiating your offer. Use these tools to research salary ranges, compare compensation across companies and levels, and walk into every negotiation with the data you need to advocate for yourself.
+        </p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 14 }}>
           {[
             { name: "Payscale", url: "https://www.payscale.com/research/US/Job", color: "#0066CC", initial: "P" },
