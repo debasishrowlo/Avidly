@@ -1,4 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+import useEmblaCarousel from 'embla-carousel-react'
+import autoScrollPlugin from "embla-carousel-auto-scroll"
+
+import "./App.css"
 
 const SIMPLIFY_GIF = "/Simplify_jobs.gif";
 
@@ -140,6 +144,24 @@ function SectionLabel({ children, t, color }) {
   );
 }
 
+const Logo = () => {
+  return (
+    <svg width="60" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 150 72 L 60 228 L 240 228 Z" stroke="url(#gradient)" stroke-width="4.5" fill="none"/>
+      <circle cx="150" cy="72" r="24" fill="#E5960B"/>
+      <circle cx="60" cy="228" r="24" fill="#0D9488"/>
+      <circle cx="240" cy="228" r="24" fill="#D946A8"/>
+      <defs>
+        <linearGradient id="gradient" x1="0%" y1="50%" x2="100%" y2="50%">
+          <stop offset="0%" stop-color="#0D9488"/>
+          <stop offset="50%" stop-color="#D946A8"/>
+          <stop offset="100%" stop-color="#E5960B"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  )
+}
+
 // ─── Nav ───
 function Nav({ page, setPage, theme, toggleTheme, t }) {
   const [open, setOpen] = useState(false);
@@ -148,9 +170,7 @@ function Nav({ page, setPage, theme, toggleTheme, t }) {
     <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: t.navBg, backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: `1px solid ${t.border}` }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
         <button onClick={() => setPage("About")} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 10, padding: 0 }} aria-label="Home">
-          <div style={{ width: 32, height: 32, borderRadius: 8, background: t.gradient, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ color: "#fff", fontWeight: 800, fontSize: 16, fontFamily: "'Fraunces', Georgia, serif" }}>A</span>
-          </div>
+          <Logo />
           <span style={{ fontSize: 20, fontWeight: 700, fontFamily: "'Fraunces', Georgia, serif", color: t.text, letterSpacing: "-0.02em" }}>Avidly</span>
         </button>
         <div style={{ display: "flex", alignItems: "center", gap: 2 }} className="desktop-nav">
@@ -291,6 +311,35 @@ function AboutPage({ t, setPage }) {
   const hero = useFadeIn();
   const bio = useFadeIn();
   const vid = useFadeIn();
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      draggable: false,
+      dragFree: true,
+    }, 
+    [autoScrollPlugin({
+      draggable: false,
+      defaultInteraction: false,
+    })]
+  )
+
+  useEffect(() => {
+    const autoScroll = emblaApi?.plugins()?.autoScroll
+    if (autoScroll) {
+      autoScroll.play()
+    }
+
+    // if (emblaApi) {
+    //   console.log("here")
+    //   emblaApi
+    //     .on('autoscroll:play', () => {
+    //       console.log("play")
+    //     })
+    //     .on('autoscroll:stop', () => {
+    //       console.log("stop")
+    //     })
+    // }
+  }, [emblaApi])
 
   return (
     <div>
@@ -305,7 +354,12 @@ function AboutPage({ t, setPage }) {
           <h1 style={{ fontSize: "clamp(34px, 5.5vw, 56px)", fontWeight: 800, color: t.text, lineHeight: 1.12, marginBottom: 22, fontFamily: "'Fraunces', Georgia, serif", letterSpacing: "-0.02em", fontOpticalSizing: "auto" }}>
             Navigate your job search{" "}
             <span style={{ display: "inline-block" }}>with an{" "}
-              <span style={{ background: t.gradient, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>insider's perspective</span>
+              <span style={{
+                background: `${t.gradient} text`,
+                WebkitTextFillColor: "transparent",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text"
+              }}>insider's perspective</span>
             </span>
           </h1>
           <p style={{ fontSize: "clamp(16px, 2vw, 19px)", color: t.textMuted, lineHeight: 1.7, maxWidth: 600, margin: "0 auto 36px", fontFamily: "'DM Sans', sans-serif" }}>
@@ -328,19 +382,7 @@ function AboutPage({ t, setPage }) {
         </div>
       </section>
 
-      <section ref={vid.ref} style={{ ...vid.style, maxWidth: 800, margin: "0 auto", padding: "48px 24px 60px" }}>
-        <div style={{ borderRadius: 16, overflow: "hidden", boxShadow: t.shadowLg, border: `1px solid ${t.border}`, position: "relative", paddingBottom: "56.25%", height: 0 }}>
-          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/n0CJMMcdD4M?si=daLYlHqDoPVRJEyS" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }} />
-        </div>
-      </section>
-
-      <section style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px 60px" }}>
-        <div style={{ borderRadius: 16, overflow: "hidden", boxShadow: t.shadowLg, border: `1px solid ${t.border}`, position: "relative", paddingBottom: "56.25%", height: 0 }}>
-          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/kSQOy6xOws0" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }} />
-        </div>
-      </section>
-
-      <section ref={bio.ref} style={{ ...bio.style, maxWidth: 820, margin: "0 auto", padding: "0 24px 90px" }}>
+      <section ref={bio.ref} style={{ ...bio.style, maxWidth: 820, margin: "0 auto", marginTop: "80px", padding: "0 24px 40px" }}>
         <div style={{ background: t.bgCard, borderRadius: 20, padding: "clamp(28px, 4vw, 48px)", border: `1px solid ${t.border}`, boxShadow: t.shadow, position: "relative", overflow: "hidden" }}>
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, background: t.gradient }} />
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20, flexWrap: "wrap" }}>
@@ -358,7 +400,40 @@ function AboutPage({ t, setPage }) {
               <p style={{ margin: 0, fontWeight: 500, color: t.text, fontSize: "clamp(15px, 1.8vw, 17px)" }}>Now she's channeling that experience into coaching — helping candidates understand what actually happens inside recruiting teams, how companies use these tools, and ultimately how to land their next role.</p>
             </div>
           </div>
+          <div className="embla" style={{ marginTop: "30px" }}>
+            <div className="embla__viewport" ref={emblaRef}>
+              <div className="embla__container">
+                {[
+                  "jp-morgan",
+                  "block",
+                  "ab-in-bev",
+                  "live-intent",
+                  "pinterest",
+                  "zx-ventures",
+                  "quantilope",
+                ].map((logo, i) => (
+                  <div className="embla__slide" key={i}>
+                    <img src={`/logos/${logo}.jpg`} alt="" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
+
+      <section className="youtube-video-container">
+        <section className="video" ref={vid.ref} style={{ ...vid.style, maxWidth: 800 }}>
+          <div style={{ borderRadius: 16, overflow: "hidden", boxShadow: t.shadowLg, border: `1px solid ${t.border}`, position: "relative", paddingBottom: "56.25%", height: 0 }}>
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/n0CJMMcdD4M?si=daLYlHqDoPVRJEyS" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }} />
+          </div>
+        </section>
+
+        <section className="video" style={{ maxWidth: 800 }}>
+          <div style={{ borderRadius: 16, overflow: "hidden", boxShadow: t.shadowLg, border: `1px solid ${t.border}`, position: "relative", paddingBottom: "56.25%", height: 0 }}>
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/kSQOy6xOws0" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }} />
+          </div>
+        </section>
       </section>
     </div>
   );
@@ -900,9 +975,7 @@ function Footer({ t }) {
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: t.gradient }} />
       <div style={{ maxWidth: 800, margin: "0 auto", position: "relative" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 12 }}>
-          <div style={{ width: 28, height: 28, borderRadius: 7, background: t.gradient, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ color: "#fff", fontWeight: 800, fontSize: 14, fontFamily: "'Fraunces', Georgia, serif" }}>A</span>
-          </div>
+          <Logo />
           <span style={{ fontSize: 18, fontWeight: 700, fontFamily: "'Fraunces', Georgia, serif", color: "#fff", opacity: 0.9 }}>Avidly</span>
         </div>
         <p style={{ fontSize: 13, color: t.footerText, fontFamily: "'DM Sans', sans-serif" }}>© {new Date().getFullYear()} Avidly Career Coaching. All rights reserved.</p>

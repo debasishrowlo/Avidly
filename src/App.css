@@ -1,0 +1,44 @@
+.embla__viewport {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+  column-gap: 24px;
+  padding-left: 24px;
+}
+
+.embla__slide {
+  flex: 0 0 50%;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .embla__slide {
+    flex: 0 0 30%;
+    min-width: 0;
+  }
+}
+
+.youtube-video-container {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-direction: column;
+  padding: 0 24px;
+  row-gap: 30px;
+  padding-bottom: 40px;
+}
+
+@media (min-width: 1024px) {
+  .youtube-video-container {
+    flex-direction: row;
+    column-gap: 30px;
+  }
+
+  .youtube-video-container > .video {
+    width: 50%;
+    margin: 0 !important;
+  }
+}
