@@ -5,12 +5,56 @@ import AboutPage from "./pages/About"
 import ResourcesPage from "./pages/Resources"
 import ContactPage from "./pages/Contact"
 
-import { MenuIcon, MoonIcon } from "./icons"
+import { CloseIcon, MenuIcon, MoonIcon, SunIcon } from "./icons"
 
 import "./App.css"
 
+type ThemeProperties = {
+  bg: string,
+  bgAlt: string,
+  bgCard: string,
+  bgCardHover: string,
+  text: string,
+  textMuted: string,
+  textLight: string,
+  accent: string,
+  accentHover: string,
+  accentLight: string,
+  accentSoft: string,
+  pop: string,
+  popLight: string,
+  popSoft: string,
+  warm: string,
+  warmLight: string,
+  warmSoft: string,
+  violet: string,
+  violetLight: string,
+  border: string,
+  borderLight: string,
+  shadow: string,
+  shadowHover: string,
+  shadowLg: string,
+  navBg: string,
+  gradient: string,
+  gradientTealPop: string,
+  gradientWarm: string,
+  gradientSubtle: string,
+  gradientHero: string,
+  tagBg: string,
+  tagText: string,
+  footerBg: string,
+  footerText: string,
+}
+
+type Page = "About" | "Services" | "Resources" | "Contact"
+
+type Themes = {
+  light: ThemeProperties,
+  dark: ThemeProperties,
+}
+
 // ─── Theme tokens ───
-const themes = {
+const themes: Themes = {
   light: {
     bg: "#FAFAF8",
     bgAlt: "#FFFFFF",
@@ -83,7 +127,7 @@ const themes = {
     footerBg: "#0A0A10",
     footerText: "#6B697E",
   },
-};
+}
 
 const Logo = () => {
   return (
@@ -104,9 +148,21 @@ const Logo = () => {
 }
 
 // ─── Nav ───
-function Nav({ page, setPage, theme, toggleTheme, t }) {
+function Nav({
+  page, 
+  setPage, 
+  theme, 
+  toggleTheme, 
+  t,
+} : {
+  page: Page, 
+  theme: keyof typeof themes, 
+  t: ThemeProperties,
+  setPage: (page: Page) => void,
+  toggleTheme: () => void,
+}) {
   const [open, setOpen] = useState(false);
-  const pages = ["About", "Services", "Resources", "Contact"];
+  const pages:Page[] = ["About", "Services", "Resources", "Contact"];
   return (
     <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: t.navBg, backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: `1px solid ${t.border}` }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
@@ -116,10 +172,25 @@ function Nav({ page, setPage, theme, toggleTheme, t }) {
         </button>
         <div style={{ display: "flex", alignItems: "center", gap: 2 }} className="desktop-nav">
           {pages.map((p) => (
-            <button key={p} onClick={() => setPage(p)} aria-current={page === p ? "page" : undefined}
-              style={{ background: page === p ? t.accentLight : "transparent", color: page === p ? t.accent : t.textMuted, border: "none", borderRadius: 8, padding: "8px 16px", fontSize: 14, fontWeight: 500, cursor: "pointer", transition: "all 0.2s", fontFamily: "'DM Sans', sans-serif" }}
-              onMouseEnter={(e) => { if (page !== p) e.target.style.color = t.text; }}
-              onMouseLeave={(e) => { if (page !== p) e.target.style.color = t.textMuted; }}>
+            <button
+              key={p}
+              onClick={() => setPage(p)}
+              aria-current={page === p ? "page" : undefined}
+              style={{
+                background: page === p ? t.accentLight : "transparent",
+                color: page === p ? t.accent : t.textMuted,
+                border: "none",
+                borderRadius: 8,
+                padding: "8px 16px",
+                fontSize: 14,
+                fontWeight: 500,
+                cursor: "pointer",
+                transition: "all 0.2s",
+                fontFamily: "'DM Sans', sans-serif"
+              }}
+              onMouseEnter={(e) => { if (page !== p) e.currentTarget.style.color = t.text; }}
+              onMouseLeave={(e) => { if (page !== p) e.currentTarget.style.color = t.textMuted; }}
+            >
               {p}
             </button>
           ))}
@@ -153,7 +224,7 @@ function Nav({ page, setPage, theme, toggleTheme, t }) {
 }
 
 // ─── Footer ───
-function Footer({ t }) {
+function Footer({ t } : { t: ThemeProperties }) {
   return (
     <footer style={{ background: t.footerBg, padding: "40px 24px", textAlign: "center", position: "relative", overflow: "hidden" }}>
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: t.gradient }} />
@@ -170,11 +241,12 @@ function Footer({ t }) {
 
 // ─── Main App ───
 export default function App() {
-  const [theme, setTheme] = useState("light");
-  const [page, setPage] = useState("About");
+  const [theme, setTheme] = useState<keyof typeof themes>("light");
+  const [page, setPage] = useState<Page>("About");
+  const toggleTheme = () => setTheme(p => (p === "light" ? "dark" : "light"));
+  const changePage = (p:Page) => { setPage(p); window.scrollTo({ top: 0, behavior: "smooth" }); };
+
   const t = themes[theme];
-  const toggleTheme = () => setTheme((p) => (p === "light" ? "dark" : "light"));
-  const changePage = (p) => { setPage(p); window.scrollTo({ top: 0, behavior: "smooth" }); };
 
   return (
     <div style={{ minHeight: "100vh", background: t.bg, color: t.text, transition: "background 0.4s, color 0.4s", fontFamily: "'DM Sans', sans-serif", overflowX: "hidden", width: "100%" }}>
@@ -182,22 +254,55 @@ export default function App() {
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
       <style>{`
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { margin: 0; padding: 0; overflow-x: hidden; width: 100%; }
-        body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-        ::selection { background: ${t.accentSoft}; color: ${t.text}; }
-        :focus-visible { outline: 2px solid ${t.accent}; outline-offset: 2px; border-radius: 4px; }
-        img { max-width: 100%; height: auto; display: block; }
-        @media (max-width: 768px) { .desktop-nav { display: none !important; } .mobile-nav { display: flex !important; } }
-        @media (min-width: 769px) { .mobile-dropdown { display: none !important; } }
+        *, *::before, *::after {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+        html, body {
+          margin: 0; 
+          padding: 0; 
+          overflow-x: hidden; 
+          width: 100%; 
+        }
+        body {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+        ::selection {
+          background: ${t.accentSoft};
+          color: ${t.text};
+        }
+        :focus-visible {
+          outline: 2px solid ${t.accent};
+          outline-offset: 2px;
+          border-radius: 4px;
+        }
+        img {
+          max-width: 100%;
+          height: auto;
+          display: block;
+        }
+        @media (max-width: 768px) {
+          .desktop-nav {
+            display: none !important;
+          } 
+          .mobile-nav {
+            display: flex !important;
+          } 
+        }
+        @media (min-width: 769px) {
+          .mobile-dropdown {
+            display: none !important;
+          }
+        }
       `}</style>
-
       <Nav page={page} setPage={changePage} theme={theme} toggleTheme={toggleTheme} t={t} />
       <main role="main" aria-label={page}>
-        {page === "About" && <AboutPage t={t} setPage={changePage} />}
-        {page === "Services" && <ServicesPage t={t} />}
-        {page === "Resources" && <ResourcesPage t={t} />}
-        {page === "Contact" && <ContactPage t={t} setPage={changePage} />}
+        {(page === "About") && <AboutPage t={t} setPage={changePage} />}
+        {(page === "Services") && <ServicesPage t={t} />}
+        {(page === "Resources") && <ResourcesPage t={t} />}
+        {(page === "Contact") && <ContactPage t={t} setPage={changePage} />}
       </main>
       <Footer t={t} />
     </div>

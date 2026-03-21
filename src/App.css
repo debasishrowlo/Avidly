@@ -12,6 +12,8 @@
 .embla__slide {
   flex: 0 0 50%;
   min-width: 0;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 @media (min-width: 768px) {

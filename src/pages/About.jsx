@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import useEmblaCarousel from 'embla-carousel-react'
 import autoScrollPlugin from "embla-carousel-auto-scroll"
 
-import { ColorPill, SectionLabel } from "../components"
+import { ColorPill, SectionLabel, TestimonialsCarousel } from "../components"
 import { ArrowIcon } from "../icons"
 import { calendlyLink } from "../constants"
 
@@ -117,7 +117,7 @@ function AboutPage({ t, setPage }) {
               <p style={{ margin: 0, fontWeight: 500, color: t.text, fontSize: "clamp(15px, 1.8vw, 17px)" }}>Now she's channeling that experience into coaching — helping candidates understand what actually happens inside recruiting teams, how companies use these tools, and ultimately how to land their next role.</p>
             </div>
           </div>
-          <div className="embla" style={{ marginTop: "30px" }}>
+          <div className="embla" style={{ marginTop: "30px", userSelect: "none" }}>
             <div className="embla__viewport" ref={emblaRef}>
               <div className="embla__container">
                 {[
@@ -152,6 +152,10 @@ function AboutPage({ t, setPage }) {
           </div>
         </section>
       </section>
+
+      <div style={{ maxWidth: "1200px", margin: "0 auto", paddingBottom: "40px", }}>
+        <TestimonialsCarousel t={t} />
+      </div>
     </div>
   );
 }
