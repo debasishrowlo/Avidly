@@ -1,7 +1,21 @@
+import React from "react"
+
 import { SparkleIcon } from "../icons"
 
+import type { ThemeProperties } from "../types"
+
 // ─── Section Label ───
-export function SectionLabel({ children, t, color }) {
+export function SectionLabel(
+  {
+    children, 
+    t, 
+    color,
+  } : {
+    children: React.ReactNode,
+    t: ThemeProperties,
+    color?: string | null,
+  }
+) {
   const c = color || t.accent;
   const bg = color === t.pop ? t.popLight : color === t.warm ? t.warmLight : t.accentLight;
   return (

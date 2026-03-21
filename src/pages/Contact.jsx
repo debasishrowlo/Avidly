@@ -16,7 +16,6 @@ function ContactPage({ t, setPage }) {
         <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 800, color: t.text, marginBottom: 12, fontFamily: "'Fraunces', Georgia, serif", letterSpacing: "-0.02em" }}>Let's Connect</h2>
         <p style={{ fontSize: 17, color: t.textMuted, maxWidth: 480, margin: "0 auto", lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif" }}>Ready to take the next step? Book a free consultation or connect with me on LinkedIn.</p>
       </section>
-
       <div ref={cards.ref} style={{ ...cards.style, display: "flex", flexDirection: "column", gap: 16 }}>
         <a href={calendlyLink} target="_blank" rel="noopener noreferrer"
           style={{ background: t.gradientSubtle, borderRadius: 18, border: `2px solid ${t.accent}`, padding: "32px 28px", textDecoration: "none", display: "flex", alignItems: "center", gap: 20, transition: "all 0.3s", boxShadow: t.shadow, position: "relative", overflow: "hidden" }}

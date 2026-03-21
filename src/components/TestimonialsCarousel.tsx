@@ -1,9 +1,17 @@
 import { useEffect, useRef, useState } from "react"
 
-import { SectionLabel } from "../components"
+import { SectionLabel } from "./SectionLabel"
 
-function TestimonialsCarousel({ t }) {
-  const testimonials = [
+import type { ThemeProperties } from "../types"
+
+function TestimonialsCarousel({ t } : { t: ThemeProperties }) {
+  const testimonials:Array<{
+    quote: string,
+    name: string,
+    role: string,
+    service: string,
+    color: "teal" | "pop" | "warm" | "violet",
+  }> = [
     {
       quote: "I was applying to jobs and wasn't getting a lot of hits — my application to interview ratio was about 10:1 but after talking to Ali that ratio went up to 3:1. Clearly she has a lot of experience working in HR and Recruiting. She's super knowledgeable on all things talent acquisition and I'd highly recommend working with her on your resume and interview skills.",
       name: "Jorge M.",
@@ -58,7 +66,7 @@ function TestimonialsCarousel({ t }) {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const touchStart = useRef(null);
+  const touchStart = useRef<number | null>(null);
   const total = testimonials.length;
 
   // Responsive check
@@ -79,20 +87,29 @@ function TestimonialsCarousel({ t }) {
     return () => clearInterval(timer);
   }, [paused, maxIndex]);
 
-  const go = (dir) => setCurrent((c) => {
+  const go = (dir:number) => setCurrent((c) => {
     const next = c + dir;
     if (next < 0) return maxIndex;
     if (next > maxIndex) return 0;
     return next;
   });
 
-  const colors = { teal: t.accent, pop: t.pop, warm: t.warm, violet: t.violet };
-  const bgs = { teal: t.accentLight, pop: t.popLight, warm: t.warmLight, violet: t.violetLight };
+  const colors = {
+    teal: t.accent,
+    pop: t.pop,
+    warm: t.warm,
+    violet: t.violet
+  };
+  const bgs = {
+    teal: t.accentLight,
+    pop: t.popLight,
+    warm: t.warmLight,
+    violet: t.violetLight
+  };
 
   const gapPx = 20;
   // Each card is (100% - gap) / perView wide
   const cardWidth = `calc((100% - ${gapPx * (perView - 1)}px) / ${perView})`;
-  const translateX = `calc(-${current} * (100% + ${gapPx}px) / ${perView})`;
 
   return (
     <div style={{ marginTop: 64 }}
@@ -120,8 +137,18 @@ function TestimonialsCarousel({ t }) {
         </button>
 
         {/* Track */}
-        <div style={{ overflow: "hidden", borderRadius: 20, margin: "0 28px", padding: "4px 0" }}
-          onTouchStart={(e) => { touchStart.current = e.touches[0].clientX; }}
+        <div
+          style={{
+            overflow: "hidden",
+            borderRadius: 20,
+            margin: "0 28px",
+            padding: "4px 0"
+          }}
+          onTouchStart={(e) => {
+            if (touchStart.current) {
+              touchStart.current = e.touches[0].clientX;
+            }
+          }}
           onTouchEnd={(e) => {
             if (touchStart.current === null) return;
             const diff = touchStart.current - e.changedTouches[0].clientX;

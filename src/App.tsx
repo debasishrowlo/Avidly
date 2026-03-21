@@ -7,44 +7,9 @@ import ContactPage from "./pages/Contact"
 
 import { CloseIcon, MenuIcon, MoonIcon, SunIcon } from "./icons"
 
-import "./App.css"
+import type { ThemeProperties } from "./types"
 
-type ThemeProperties = {
-  bg: string,
-  bgAlt: string,
-  bgCard: string,
-  bgCardHover: string,
-  text: string,
-  textMuted: string,
-  textLight: string,
-  accent: string,
-  accentHover: string,
-  accentLight: string,
-  accentSoft: string,
-  pop: string,
-  popLight: string,
-  popSoft: string,
-  warm: string,
-  warmLight: string,
-  warmSoft: string,
-  violet: string,
-  violetLight: string,
-  border: string,
-  borderLight: string,
-  shadow: string,
-  shadowHover: string,
-  shadowLg: string,
-  navBg: string,
-  gradient: string,
-  gradientTealPop: string,
-  gradientWarm: string,
-  gradientSubtle: string,
-  gradientHero: string,
-  tagBg: string,
-  tagText: string,
-  footerBg: string,
-  footerText: string,
-}
+import "./App.css"
 
 type Page = "About" | "Services" | "Resources" | "Contact"
 

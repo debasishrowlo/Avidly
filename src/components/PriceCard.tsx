@@ -4,8 +4,40 @@ import { CheckIcon, ExternalLinkIcon } from "../icons"
 
 import { useFadeIn } from "../hooks"
 
+import type { ThemeProperties } from "../types"
+
+type Schemes = {
+  teal: { pill: string, check: string, borderHover: string },
+  pop: { pill: string, check: string, borderHover: string },
+  warm: { pill: string, check: string, borderHover: string },
+  violet: { pill: string, check: string, borderHover: string },
+  bundle: { pill: string, check: string, borderHover: string },
+};
+
+type ColorScheme = keyof Schemes
+
 // ─── Price Card ───
-function PriceCard({ title, original, price, features, tag, t, colorScheme, link, linkLabel }) {
+function PriceCard({
+  title,
+  original,
+  price,
+  features,
+  tag,
+  t,
+  colorScheme,
+  link,
+  linkLabel
+} : {
+  title: string,
+  original?: string,
+  price: string,
+  features: string[],
+  tag?: string,
+  t: ThemeProperties,
+  colorScheme: ColorScheme,
+  link?: string,
+  linkLabel?: string,
+}) {
   const fade = useFadeIn();
   const [hovered, setHovered] = useState(false);
   const [showZelle, setShowZelle] = useState(false);
@@ -27,8 +59,8 @@ function PriceCard({ title, original, price, features, tag, t, colorScheme, link
   ];
 
   return (
-    <div ref={fade.ref}
-      style={{ ...fade.style, background: isBundle ? t.gradient : t.bgCard, borderRadius: 16, border: `1.5px solid ${hovered ? s.borderHover : (isBundle ? "transparent" : t.border)}`, padding: "28px 24px", display: "flex", flexDirection: "column", gap: 16, transition: "all 0.3s", boxShadow: hovered ? t.shadowHover : t.shadow, transform: hovered ? `${fade.style.transform} translateY(-4px)` : fade.style.transform, position: "relative", overflow: "hidden" }}
+    <div
+      style={{ background: isBundle ? t.gradient : t.bgCard, borderRadius: 16, border: `1.5px solid ${hovered ? s.borderHover : (isBundle ? "transparent" : t.border)}`, padding: "28px 24px", display: "flex", flexDirection: "column", gap: 16, transition: "all 0.3s", boxShadow: hovered ? t.shadowHover : t.shadow, transform: hovered ? `${fade.style.transform} translateY(-4px)` : fade.style.transform, position: "relative", overflow: "hidden" }}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       {tag && (
         <div style={{ position: "absolute", top: 16, right: 16, background: isBundle ? "rgba(255,255,255,0.25)" : t.popLight, color: isBundle ? "#fff" : t.pop, fontSize: 11, fontWeight: 700, padding: "4px 10px", borderRadius: 6, letterSpacing: "0.04em", textTransform: "uppercase", backdropFilter: isBundle ? "blur(8px)" : "none" }}>{tag}</div>
