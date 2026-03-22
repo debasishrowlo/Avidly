@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link, NavLink, Routes, Route, useLocation } from "react-router";
 
 import ServicesPage from "./pages/Services"
 import AboutPage from "./pages/About"
@@ -11,7 +12,10 @@ import type { ThemeProperties } from "./types"
 
 import "./App.css"
 
-type Page = "About" | "Services" | "Resources" | "Contact"
+type Page = {
+  name: string,
+  link: string,
+}
 
 type Themes = {
   light: ThemeProperties,
@@ -123,41 +127,49 @@ function Nav({
   page: Page, 
   theme: keyof typeof themes, 
   t: ThemeProperties,
-  setPage: (page: Page) => void,
+  setPage: (page: string) => void,
   toggleTheme: () => void,
 }) {
   const [open, setOpen] = useState(false);
-  const pages:Page[] = ["About", "Services", "Resources", "Contact"];
+  const pages:Page[] = [
+    { name: "About", link: "/" },
+    { name: "Services", link: "/services" },
+    { name: "Resources", link: "/resources" },
+    { name: "Contact", link: "/contact" },
+  ];
   return (
     <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: t.navBg, backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: `1px solid ${t.border}` }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
-        <button onClick={() => setPage("About")} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 10, padding: 0 }} aria-label="Home">
+        <Link to="/" style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 10, padding: 0, textDecoration: "none" }} aria-label="Home">
           <Logo />
           <span style={{ fontSize: 20, fontWeight: 700, fontFamily: "'Fraunces', Georgia, serif", color: t.text, letterSpacing: "-0.02em" }}>Avidly</span>
-        </button>
+        </Link>
         <div style={{ display: "flex", alignItems: "center", gap: 2 }} className="desktop-nav">
-          {pages.map((p) => (
-            <button
-              key={p}
-              onClick={() => setPage(p)}
+          {pages.map((p, index) => (
+            <NavLink
+              to={p.link}
+              key={index}
               aria-current={page === p ? "page" : undefined}
-              style={{
-                background: page === p ? t.accentLight : "transparent",
-                color: page === p ? t.accent : t.textMuted,
+              style={({ isActive }) => ({
+                background: isActive ? t.accentLight : "transparent",
+                color: isActive ? t.accent : t.textMuted,
                 border: "none",
                 borderRadius: 8,
                 padding: "8px 16px",
+                textDecoration: "none",
                 fontSize: 14,
                 fontWeight: 500,
                 cursor: "pointer",
                 transition: "all 0.2s",
                 fontFamily: "'DM Sans', sans-serif"
-              }}
+              })}
+              // style={{
+              // }}
               onMouseEnter={(e) => { if (page !== p) e.currentTarget.style.color = t.text; }}
               onMouseLeave={(e) => { if (page !== p) e.currentTarget.style.color = t.textMuted; }}
             >
-              {p}
-            </button>
+              {p.name}
+            </NavLink>
           ))}
           <div style={{ width: 1, height: 24, background: t.border, margin: "0 8px" }} />
           <button onClick={toggleTheme} aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
@@ -176,10 +188,10 @@ function Nav({
       </div>
       {open && (
         <div style={{ background: t.bgAlt, borderTop: `1px solid ${t.border}`, padding: "8px 16px 16px" }} className="mobile-dropdown">
-          {pages.map((p) => (
-            <button key={p} onClick={() => { setPage(p); setOpen(false); }}
+          {pages.map((p, index) => (
+            <button key={index} onClick={() => { setPage(p); setOpen(false); }}
               style={{ display: "block", width: "100%", textAlign: "left", background: page === p ? t.accentLight : "transparent", color: page === p ? t.accent : t.textMuted, border: "none", borderRadius: 8, padding: "12px 16px", fontSize: 15, fontWeight: 500, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", marginTop: 4 }}>
-              {p}
+              {p.name}
             </button>
           ))}
         </div>
@@ -205,16 +217,21 @@ function Footer({ t } : { t: ThemeProperties }) {
 }
 
 // ─── Main App ───
-export default function App() {
+function App() {
+  const { pathname } = useLocation()
   const [theme, setTheme] = useState<keyof typeof themes>("light");
-  const [page, setPage] = useState<Page>("About");
+  const [page, setPage] = useState<string>("About");
   const toggleTheme = () => setTheme(p => (p === "light" ? "dark" : "light"));
-  const changePage = (p:Page) => { setPage(p); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  const changePage = (p:string) => { setPage(p); window.scrollTo({ top: 0, behavior: "smooth" }); };
 
   const t = themes[theme];
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+
   return (
-    <div style={{ minHeight: "100vh", background: t.bg, color: t.text, transition: "background 0.4s, color 0.4s", fontFamily: "'DM Sans', sans-serif", overflowX: "hidden", width: "100%" }}>
+    <div style={{ minHeight: "100vh", background: t.footerBg, color: t.text, transition: "background 0.4s, color 0.4s", fontFamily: "'DM Sans', sans-serif", overflowX: "hidden", width: "100%" }}>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
@@ -262,14 +279,32 @@ export default function App() {
           }
         }
       `}</style>
-      <Nav page={page} setPage={changePage} theme={theme} toggleTheme={toggleTheme} t={t} />
-      <main role="main" aria-label={page}>
-        {(page === "About") && <AboutPage t={t} setPage={changePage} />}
-        {(page === "Services") && <ServicesPage t={t} />}
-        {(page === "Resources") && <ResourcesPage t={t} />}
-        {(page === "Contact") && <ContactPage t={t} setPage={changePage} />}
-      </main>
-      <Footer t={t} />
+      <div style={{ height: "100%", background: t.bg }}>
+        <Nav
+          page={page} 
+          setPage={changePage}
+          theme={theme} 
+          toggleTheme={toggleTheme} 
+          t={t} 
+        />
+        <main role="main" aria-label={page}>
+          <Routes>
+            <Route index element={<AboutPage t={t} setPage={changePage} />} />
+            <Route path="services" element={<ServicesPage t={t} />} />
+            <Route path="resources" element={<ResourcesPage t={t} />} />
+            <Route path="contact" element={<ContactPage t={t} setPage={changePage} />} />
+          </Routes>
+          {/*
+          {(page === "About") && <AboutPage t={t} setPage={changePage} />}
+          {(page === "Services") && <ServicesPage t={t} />}
+          {(page === "Resources") && <ResourcesPage t={t} />}
+          {(page === "Contact") && <ContactPage t={t} setPage={changePage} />}
+          */}
+        </main>
+        <Footer t={t} />
+      </div>
     </div>
   );
 }
+
+export default App

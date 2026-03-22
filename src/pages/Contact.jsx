@@ -1,3 +1,5 @@
+import { Link } from "react-router"
+
 import { SectionLabel } from "../components"
 import { ArrowIcon, CalendarIcon, LinkedInIcon, SparkleIcon } from "../icons"
 
@@ -45,7 +47,7 @@ function ContactPage({ t, setPage }) {
           <span style={{ color: "#0A66C2", flexShrink: 0 }}><ArrowIcon /></span>
         </a>
 
-        <button onClick={() => setPage("Services")}
+        <Link to="/"
           style={{ background: t.bgCard, borderRadius: 18, border: `2px solid ${t.border}`, padding: "32px 28px", textDecoration: "none", display: "flex", alignItems: "center", gap: 20, transition: "all 0.3s", boxShadow: t.shadow, cursor: "pointer", width: "100%", textAlign: "left", fontFamily: "'DM Sans', sans-serif" }}
           onMouseEnter={(e) => { e.currentTarget.style.boxShadow = t.shadowHover; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.borderColor = t.accent; }}
           onMouseLeave={(e) => { e.currentTarget.style.boxShadow = t.shadow; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.borderColor = t.border; }}>
@@ -57,7 +59,7 @@ function ContactPage({ t, setPage }) {
             <div style={{ fontSize: 14, color: t.textMuted, fontFamily: "'DM Sans', sans-serif" }}>Explore coaching packages, resume reviews, and more.</div>
           </div>
           <span style={{ color: t.accent, flexShrink: 0 }}><ArrowIcon /></span>
-        </button>
+        </Link>
       </div>
     </div>
   );

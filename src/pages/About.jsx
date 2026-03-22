@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import useEmblaCarousel from 'embla-carousel-react'
 import autoScrollPlugin from "embla-carousel-auto-scroll"
+import { Link } from "react-router"
 
 import { ColorPill, SectionLabel, TestimonialsCarousel } from "../components"
 import { ArrowIcon } from "../icons"
@@ -68,12 +69,13 @@ function AboutPage({ t, setPage }) {
             Learn what actually happens inside recruiting teams, how companies use hiring technology, and how to stand out in today's competitive job market.
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <button onClick={() => setPage("Services")}
-              style={{ background: t.gradient, color: "#fff", border: "none", borderRadius: 12, padding: "15px 30px", fontSize: 15, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, transition: "all 0.25s", fontFamily: "'DM Sans', sans-serif", boxShadow: `0 4px 16px ${t.accent}33` }}
+            <Link to="/services"
+              style={{ background: t.gradient, color: "#fff", border: "none", borderRadius: 12, padding: "15px 30px", fontSize: 15, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, transition: "all 0.25s", fontFamily: "'DM Sans', sans-serif", boxShadow: `0 4px 16px ${t.accent}33`, textDecoration: "none", }}
               onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 6px 24px ${t.accent}44`; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = `0 4px 16px ${t.accent}33`; }}>
+              onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = `0 4px 16px ${t.accent}33`; }}
+            >
               View Services <ArrowIcon />
-            </button>
+            </Link>
             <a
               href={calendlyLink}
               target="_blank"
