@@ -5,6 +5,7 @@ import ServicesPage from "./pages/Services"
 import AboutPage from "./pages/About"
 import ResourcesPage from "./pages/Resources"
 import ContactPage from "./pages/Contact"
+import HowHiringWorksPage from "./pages/blog/HowHiringWorks"
 
 import { CloseIcon, MenuIcon, MoonIcon, SunIcon } from "./icons"
 
@@ -119,15 +120,13 @@ const Logo = () => {
 // ─── Nav ───
 function Nav({
   page, 
-  setPage, 
   theme, 
   toggleTheme, 
   t,
 } : {
-  page: Page, 
+  page: string, 
   theme: keyof typeof themes, 
   t: ThemeProperties,
-  setPage: (page: string) => void,
   toggleTheme: () => void,
 }) {
   const [open, setOpen] = useState(false);
@@ -149,7 +148,6 @@ function Nav({
             <NavLink
               to={p.link}
               key={index}
-              aria-current={page === p ? "page" : undefined}
               style={({ isActive }) => ({
                 background: isActive ? t.accentLight : "transparent",
                 color: isActive ? t.accent : t.textMuted,
@@ -163,10 +161,8 @@ function Nav({
                 transition: "all 0.2s",
                 fontFamily: "'DM Sans', sans-serif"
               })}
-              // style={{
-              // }}
-              onMouseEnter={(e) => { if (page !== p) e.currentTarget.style.color = t.text; }}
-              onMouseLeave={(e) => { if (page !== p) e.currentTarget.style.color = t.textMuted; }}
+              onMouseEnter={(e) => { if (page !== p.name) e.currentTarget.style.color = t.text; }}
+              onMouseLeave={(e) => { if (page !== p.name) e.currentTarget.style.color = t.textMuted; }}
             >
               {p.name}
             </NavLink>
@@ -189,10 +185,28 @@ function Nav({
       {open && (
         <div style={{ background: t.bgAlt, borderTop: `1px solid ${t.border}`, padding: "8px 16px 16px" }} className="mobile-dropdown">
           {pages.map((p, index) => (
-            <button key={index} onClick={() => { setPage(p); setOpen(false); }}
-              style={{ display: "block", width: "100%", textAlign: "left", background: page === p ? t.accentLight : "transparent", color: page === p ? t.accent : t.textMuted, border: "none", borderRadius: 8, padding: "12px 16px", fontSize: 15, fontWeight: 500, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", marginTop: 4 }}>
+            <NavLink
+              key={index}
+              to={p.link}
+              style={({ isActive }) => ({
+                display: "block", 
+                width: "100%", 
+                textAlign: "left", 
+                background: isActive ? t.accentLight : "transparent", 
+                color: isActive ? t.accent : t.textMuted, 
+                border: "none", 
+                borderRadius: 8, 
+                padding: "12px 16px", 
+                fontSize: 15, 
+                fontWeight: 500, 
+                cursor: "pointer", 
+                fontFamily: "'DM Sans', sans-serif", 
+                marginTop: 4,
+                textDecoration: "none",
+              })}
+            >
               {p.name}
-            </button>
+            </NavLink>
           ))}
         </div>
       )}
@@ -232,57 +246,9 @@ function App() {
 
   return (
     <div style={{ minHeight: "100vh", background: t.footerBg, color: t.text, transition: "background 0.4s, color 0.4s", fontFamily: "'DM Sans', sans-serif", overflowX: "hidden", width: "100%" }}>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
-      <style>{`
-        *, *::before, *::after {
-          box-sizing: border-box;
-          margin: 0;
-          padding: 0;
-        }
-        html, body {
-          margin: 0; 
-          padding: 0; 
-          overflow-x: hidden; 
-          width: 100%; 
-        }
-        body {
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
-        ::selection {
-          background: ${t.accentSoft};
-          color: ${t.text};
-        }
-        :focus-visible {
-          outline: 2px solid ${t.accent};
-          outline-offset: 2px;
-          border-radius: 4px;
-        }
-        img {
-          max-width: 100%;
-          height: auto;
-          display: block;
-        }
-        @media (max-width: 768px) {
-          .desktop-nav {
-            display: none !important;
-          } 
-          .mobile-nav {
-            display: flex !important;
-          } 
-        }
-        @media (min-width: 769px) {
-          .mobile-dropdown {
-            display: none !important;
-          }
-        }
-      `}</style>
       <div style={{ height: "100%", background: t.bg }}>
         <Nav
           page={page} 
-          setPage={changePage}
           theme={theme} 
           toggleTheme={toggleTheme} 
           t={t} 
@@ -293,13 +259,8 @@ function App() {
             <Route path="services" element={<ServicesPage t={t} />} />
             <Route path="resources" element={<ResourcesPage t={t} />} />
             <Route path="contact" element={<ContactPage t={t} setPage={changePage} />} />
+            <Route path="/blog/how-hiring-works" element={<HowHiringWorksPage />} />
           </Routes>
-          {/*
-          {(page === "About") && <AboutPage t={t} setPage={changePage} />}
-          {(page === "Services") && <ServicesPage t={t} />}
-          {(page === "Resources") && <ResourcesPage t={t} />}
-          {(page === "Contact") && <ContactPage t={t} setPage={changePage} />}
-          */}
         </main>
         <Footer t={t} />
       </div>

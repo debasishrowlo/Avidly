@@ -143,9 +143,11 @@ function AboutPage({ t, setPage }) {
 
       <section className="youtube-video-container" ref={vid.ref} style={{ ...vid.style }}>
         <section className="video" style={{ maxWidth: 800 }}>
-          <div style={{ borderRadius: 16, overflow: "hidden", boxShadow: t.shadowLg, border: `1px solid ${t.border}`, position: "relative", paddingBottom: "56.25%", height: 0 }}>
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/n0CJMMcdD4M?si=daLYlHqDoPVRJEyS" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }} />
-          </div>
+          <Link to="/blog/how-hiring-works">
+            <div style={{ borderRadius: 16, overflow: "hidden", boxShadow: t.shadowLg, border: `1px solid ${t.border}`, position: "relative", paddingBottom: "56.25%", height: 0 }}>
+              <div>How Hiring Works</div>
+            </div>
+          </Link>
         </section>
 
         <section className="video" style={{ maxWidth: 800 }}>

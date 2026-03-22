@@ -34,3 +34,10 @@ export type ThemeProperties = {
   footerBg: string,
   footerText: string,
 }
+
+declare global {
+  interface Window {
+    onYouTubeIframeAPIReady: () => void;
+    YT: any;
+  }
+}
