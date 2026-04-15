@@ -1,1 +1,0 @@
-export const calendlyLink = "https://calendly.com/alisonvidler/15-min-chat"

@@ -9,8 +9,10 @@ import { calendlyLink } from "../constants"
 
 import { useFadeIn } from "../hooks"
 
+import type { Theme } from "../types"
+
 // ─── Decorative blobs ───
-function DecorBlobs({ t }) {
+function DecorBlobs({ t } : { t: Theme }) {
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
       <div style={{ position: "absolute", top: -120, right: -80, width: 360, height: 360, borderRadius: "50%", background: t.accentLight, opacity: 0.7, filter: "blur(60px)" }} />
@@ -21,20 +23,16 @@ function DecorBlobs({ t }) {
 }
 
 // ─── About Page ───
-function AboutPage({ t, setPage }) {
+function AboutPage({ t } : { t: Theme }) {
   const hero = useFadeIn();
   const bio = useFadeIn();
   const vid = useFadeIn();
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
-      draggable: false,
       dragFree: true,
     }, 
-    [autoScrollPlugin({
-      draggable: false,
-      defaultInteraction: false,
-    })]
+    [autoScrollPlugin()]
   )
 
   useEffect(() => {

@@ -6,8 +6,10 @@ import { ArrowIcon, CalendarIcon, LinkedInIcon, SparkleIcon } from "../icons"
 import { useFadeIn } from "../hooks"
 import { calendlyLink } from "../constants"
 
+import type { Theme } from "../types"
+
 // ─── Contact Page ───
-function ContactPage({ t, setPage }) {
+function ContactPage({ t } : { t: Theme }) {
   const header = useFadeIn();
   const cards = useFadeIn();
 

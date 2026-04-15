@@ -3,10 +3,12 @@ import { ExternalLinkIcon, HeartIcon } from "../icons"
 
 import { useFadeIn } from "../hooks"
 
+import type { Theme } from "../types"
+
 const SIMPLIFY_GIF = "/Simplify_jobs.gif";
 
 // ─── Resources Page ───
-function ResourcesPage({ t }) {
+function ResourcesPage({ t } : { t: Theme }) {
   const header = useFadeIn();
   const simplify = useFadeIn();
   const boards = useFadeIn();

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, Routes, Route, useLocation } from "react-router";
 
+import { pages } from "./constants"
+
 import ServicesPage from "./pages/Services"
 import AboutPage from "./pages/About"
 import ResourcesPage from "./pages/Resources"
@@ -9,21 +11,16 @@ import HowHiringWorksPage from "./pages/blog/HowHiringWorks"
 
 import { CloseIcon, MenuIcon, MoonIcon, SunIcon } from "./icons"
 
-import type { ThemeProperties } from "./types"
+import type { Theme } from "./types"
+import type { PageName } from "./constants"
 
 import "./App.css"
 
-type Page = {
-  name: string,
-  link: string,
-}
-
 type Themes = {
-  light: ThemeProperties,
-  dark: ThemeProperties,
+  light: Theme,
+  dark: Theme,
 }
 
-// ─── Theme tokens ───
 const themes: Themes = {
   light: {
     bg: "#FAFAF8",
@@ -126,16 +123,10 @@ function Nav({
 } : {
   page: string, 
   theme: keyof typeof themes, 
-  t: ThemeProperties,
+  t: Theme,
   toggleTheme: () => void,
 }) {
   const [open, setOpen] = useState(false);
-  const pages:Page[] = [
-    { name: "About", link: "/" },
-    { name: "Services", link: "/services" },
-    { name: "Resources", link: "/resources" },
-    { name: "Contact", link: "/contact" },
-  ];
   return (
     <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: t.navBg, backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: `1px solid ${t.border}` }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
@@ -215,7 +206,7 @@ function Nav({
 }
 
 // ─── Footer ───
-function Footer({ t } : { t: ThemeProperties }) {
+function Footer({ t } : { t: Theme }) {
   return (
     <footer style={{ background: t.footerBg, padding: "40px 24px", textAlign: "center", position: "relative", overflow: "hidden" }}>
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: t.gradient }} />
@@ -234,9 +225,9 @@ function Footer({ t } : { t: ThemeProperties }) {
 function App() {
   const { pathname } = useLocation()
   const [theme, setTheme] = useState<keyof typeof themes>("light");
-  const [page, setPage] = useState<string>("About");
+  const [page, setPage] = useState<PageName>("About");
   const toggleTheme = () => setTheme(p => (p === "light" ? "dark" : "light"));
-  const changePage = (p:string) => { setPage(p); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  const changePage = (p:PageName) => { setPage(p); window.scrollTo({ top: 0, behavior: "smooth" }); };
 
   const t = themes[theme];
 
@@ -255,10 +246,10 @@ function App() {
         />
         <main role="main" aria-label={page}>
           <Routes>
-            <Route index element={<AboutPage t={t} setPage={changePage} />} />
+            <Route index element={<AboutPage t={t} />} />
             <Route path="services" element={<ServicesPage t={t} />} />
             <Route path="resources" element={<ResourcesPage t={t} />} />
-            <Route path="contact" element={<ContactPage t={t} setPage={changePage} />} />
+            <Route path="contact" element={<ContactPage t={t} />} />
             <Route path="/blog/how-hiring-works" element={<HowHiringWorksPage />} />
           </Routes>
         </main>

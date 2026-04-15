@@ -1,4 +1,4 @@
-export type ThemeProperties = {
+export type Theme = {
   bg: string,
   bgAlt: string,
   bgCard: string,
