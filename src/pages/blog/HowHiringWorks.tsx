@@ -282,7 +282,7 @@ const HowHiringWorks = ({ t } : { t: Theme }) => {
                 >
                   [{section.timestamp}]
                 </button>
-                <span className="ml-8">{section.title}</span>
+                <span className="ml-6">{section.title}</span>
               </h2>
               <p className="mt-12 whitespace-pre-wrap" style={{ fontSize: 18, color: t.textMuted, lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif" }}>
                 {section.description
