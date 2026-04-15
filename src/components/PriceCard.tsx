@@ -4,7 +4,7 @@ import { CheckIcon, ExternalLinkIcon } from "../icons"
 
 import { useFadeIn } from "../hooks"
 
-import type { ThemeProperties } from "../types"
+import type { Theme } from "../types"
 
 type Schemes = {
   teal: { pill: string, check: string, borderHover: string },
@@ -33,7 +33,7 @@ function PriceCard({
   price: string,
   features: string[],
   tag?: string,
-  t: ThemeProperties,
+  t: Theme,
   colorScheme: ColorScheme,
   link?: string,
   linkLabel?: string,

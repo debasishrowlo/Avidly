@@ -12,7 +12,6 @@ import HowHiringWorksPage from "./pages/blog/HowHiringWorks"
 import { CloseIcon, MenuIcon, MoonIcon, SunIcon } from "./icons"
 
 import type { Theme } from "./types"
-import type { PageName } from "./constants"
 
 import "./App.css"
 
@@ -115,18 +114,19 @@ const Logo = () => {
 }
 
 // ─── Nav ───
-function Nav({
-  page, 
+const Nav = ({
   theme, 
   toggleTheme, 
   t,
 } : {
-  page: string, 
   theme: keyof typeof themes, 
   t: Theme,
   toggleTheme: () => void,
-}) {
+}) => {
+  const location = useLocation()
+
   const [open, setOpen] = useState(false);
+
   return (
     <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: t.navBg, backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: `1px solid ${t.border}` }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
@@ -135,29 +135,33 @@ function Nav({
           <span style={{ fontSize: 20, fontWeight: 700, fontFamily: "'Fraunces', Georgia, serif", color: t.text, letterSpacing: "-0.02em" }}>Avidly</span>
         </Link>
         <div style={{ display: "flex", alignItems: "center", gap: 2 }} className="desktop-nav">
-          {pages.map((p, index) => (
-            <NavLink
-              to={p.link}
-              key={index}
-              style={({ isActive }) => ({
-                background: isActive ? t.accentLight : "transparent",
-                color: isActive ? t.accent : t.textMuted,
-                border: "none",
-                borderRadius: 8,
-                padding: "8px 16px",
-                textDecoration: "none",
-                fontSize: 14,
-                fontWeight: 500,
-                cursor: "pointer",
-                transition: "all 0.2s",
-                fontFamily: "'DM Sans', sans-serif"
-              })}
-              onMouseEnter={(e) => { if (page !== p.name) e.currentTarget.style.color = t.text; }}
-              onMouseLeave={(e) => { if (page !== p.name) e.currentTarget.style.color = t.textMuted; }}
-            >
-              {p.name}
-            </NavLink>
-          ))}
+          {pages.map((p, index) => {
+            const isActive = location.pathname === p.link
+
+            return (
+              <NavLink
+                to={p.link}
+                key={index}
+                style={({ isActive }) => ({
+                  background: isActive ? t.accentLight : "transparent",
+                  color: isActive ? t.accent : t.textMuted,
+                  border: "none",
+                  borderRadius: 8,
+                  padding: "8px 16px",
+                  textDecoration: "none",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  fontFamily: "'DM Sans', sans-serif"
+                })}
+                onMouseEnter={(e) => { if (isActive) e.currentTarget.style.color = t.text; }}
+                onMouseLeave={(e) => { if (isActive) e.currentTarget.style.color = t.textMuted; }}
+              >
+                {p.name}
+              </NavLink>
+            )
+          })}
           <div style={{ width: 1, height: 24, background: t.border, margin: "0 8px" }} />
           <button onClick={toggleTheme} aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
             style={{ background: t.accentLight, border: "none", borderRadius: 8, padding: 8, cursor: "pointer", color: t.accent, display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.2s" }}>
@@ -225,9 +229,7 @@ function Footer({ t } : { t: Theme }) {
 function App() {
   const { pathname } = useLocation()
   const [theme, setTheme] = useState<keyof typeof themes>("light");
-  const [page, setPage] = useState<PageName>("About");
   const toggleTheme = () => setTheme(p => (p === "light" ? "dark" : "light"));
-  const changePage = (p:PageName) => { setPage(p); window.scrollTo({ top: 0, behavior: "smooth" }); };
 
   const t = themes[theme];
 
@@ -239,18 +241,17 @@ function App() {
     <div style={{ minHeight: "100vh", background: t.footerBg, color: t.text, transition: "background 0.4s, color 0.4s", fontFamily: "'DM Sans', sans-serif", overflowX: "hidden", width: "100%" }}>
       <div style={{ height: "100%", background: t.bg }}>
         <Nav
-          page={page} 
           theme={theme} 
           toggleTheme={toggleTheme} 
           t={t} 
         />
-        <main role="main" aria-label={page}>
+        <main role="main">
           <Routes>
             <Route index element={<AboutPage t={t} />} />
             <Route path="services" element={<ServicesPage t={t} />} />
             <Route path="resources" element={<ResourcesPage t={t} />} />
             <Route path="contact" element={<ContactPage t={t} />} />
-            <Route path="/blog/how-hiring-works" element={<HowHiringWorksPage />} />
+            <Route path="/blog/how-hiring-works" element={<HowHiringWorksPage t={t} />} />
           </Routes>
         </main>
         <Footer t={t} />

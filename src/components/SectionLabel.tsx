@@ -2,7 +2,7 @@ import React from "react"
 
 import { SparkleIcon } from "../icons"
 
-import type { ThemeProperties } from "../types"
+import type { Theme } from "../types"
 
 // ─── Section Label ───
 export function SectionLabel(
@@ -12,7 +12,7 @@ export function SectionLabel(
     color,
   } : {
     children: React.ReactNode,
-    t: ThemeProperties,
+    t: Theme,
     color?: string | null,
   }
 ) {

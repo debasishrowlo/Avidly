@@ -3,20 +3,25 @@ import { HeartIcon } from "../icons"
 
 import { useFadeIn } from "../hooks"
 
-import type { ThemeProperties } from "../types"
+import type { Theme } from "../types"
 
-// ─── Services Page ───
-function ServicesPage({ t } : { t: ThemeProperties }) {
+function ServicesPage({ t } : { t: Theme }) {
   const header = useFadeIn();
 
   return (
-    <div ref={header.ref} style={{ ...header.style, maxWidth: 1040, margin: "0 auto", padding: "100px 24px 80px" }}>
+    <div ref={header.ref} 
+      style={{
+        ...header.style, 
+        maxWidth: 1040, 
+        margin: "0 auto", 
+        padding: "100px 24px 80px"
+      }}
+    >
       <section style={{ textAlign: "center", marginBottom: 52 }}>
         <SectionLabel t={t}>What I Offer</SectionLabel>
         <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 800, color: t.text, marginBottom: 12, fontFamily: "'Fraunces', Georgia, serif", letterSpacing: "-0.02em" }}>Services</h2>
         <p style={{ fontSize: 17, color: t.textMuted, maxWidth: 560, margin: "0 auto", lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif" }}>Practical, insider-informed coaching to help you navigate every stage of your job search.</p>
       </section>
-
       <div style={{ marginBottom: 56 }}>
         <h3 style={{ fontSize: 20, fontWeight: 700, color: t.text, marginBottom: 24, fontFamily: "'DM Sans', sans-serif", display: "flex", alignItems: "center", gap: 12 }}>
           <span style={{ width: 36, height: 4, background: t.gradientTealPop, borderRadius: 2, display: "inline-block" }} />

@@ -7,4 +7,4 @@ export const pages = [
   { name: "Contact", link: "/contact" },
 ] as const
 
-export type PageName = typeof pages[number]["name"]
+// export type PageName = typeof pages[number]["name"]

@@ -1,6 +1,8 @@
 import { useEffect, useRef, } from "react"
 
-const HowHiringWorks = () => {
+import type { Theme } from "../../types"
+
+const HowHiringWorks = ({ t } : { t: Theme }) => {
   const sections = [
     {
       timestamp: "00:00",
@@ -262,8 +264,8 @@ const HowHiringWorks = () => {
 
   return (
     <div className="max-w-1200 mx-auto px-24 py-120">
-      <h1>How hiring works</h1>
-      <div className="relative w-full max-w-800 aspect-video mx-auto rounded-16 overflow-hidden">
+      <h1 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 800, color: t.text, marginBottom: 12, fontFamily: "'Fraunces', Georgia, serif", letterSpacing: "-0.02em" }}>How Hiring Works</h1>
+      <div className="relative w-full max-w-800 aspect-video mx-auto my-12 md:my-60 rounded-16 overflow-hidden">
         <iframe width="100%" height="100%" id="player" src="https://www.youtube.com/embed/n0CJMMcdD4M?si=daLYlHqDoPVRJEyS&enablejsapi=1" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }} />
       </div>
 
@@ -271,13 +273,18 @@ const HowHiringWorks = () => {
         {sections.map((section, index) => {
           return (
             <div key={index} className="mt-30 first:mt-0">
-              <h2>
-                <button type="button" onClick={() => jumpTo(section.timestamp)} className="cursor-pointer">
+              <h2 style={{ fontSize: 20, fontWeight: 700, color: t.text, fontFamily: "'DM Sans', sans-serif", }}>
+                <button
+                  type="button"
+                  onClick={() => jumpTo(section.timestamp)}
+                  className="cursor-pointer"
+                  style={{ color: t.violet }}
+                >
                   [{section.timestamp}]
                 </button>
-                {section.title}
+                <span className="ml-8">{section.title}</span>
               </h2>
-              <p className="whitespace-pre-wrap">
+              <p className="mt-12 whitespace-pre-wrap" style={{ fontSize: 18, color: t.textMuted, lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif" }}>
                 {section.description
                   .trim()
                   .split("\n")

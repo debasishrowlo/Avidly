@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react"
 
 import { SectionLabel } from "./SectionLabel"
 
-import type { ThemeProperties } from "../types"
+import type { Theme } from "../types"
 
-function TestimonialsCarousel({ t } : { t: ThemeProperties }) {
+function TestimonialsCarousel({ t } : { t: Theme }) {
   const testimonials:Array<{
     quote: string,
     name: string,

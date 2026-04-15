@@ -11,7 +11,8 @@ import { useFadeIn } from "../hooks"
 
 import type { Theme } from "../types"
 
-// ─── Decorative blobs ───
+import howHiringWorksThumbnail from "../assets/how-hiring-works-thumbnail.jpg"
+
 function DecorBlobs({ t } : { t: Theme }) {
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
@@ -22,7 +23,14 @@ function DecorBlobs({ t } : { t: Theme }) {
   );
 }
 
-// ─── About Page ───
+const PlayIcon = ({ className, style } : { className: string, style: React.CSSProperties }) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className} style={style}>
+      <path fillRule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clipRule="evenodd" />
+    </svg>
+  )
+}
+
 function AboutPage({ t } : { t: Theme }) {
   const hero = useFadeIn();
   const bio = useFadeIn();
@@ -142,8 +150,15 @@ function AboutPage({ t } : { t: Theme }) {
       <section className="youtube-video-container" ref={vid.ref} style={{ ...vid.style }}>
         <section className="video" style={{ maxWidth: 800 }}>
           <Link to="/blog/how-hiring-works">
-            <div style={{ borderRadius: 16, overflow: "hidden", boxShadow: t.shadowLg, border: `1px solid ${t.border}`, position: "relative", paddingBottom: "56.25%", height: 0 }}>
-              <div>How Hiring Works</div>
+            <div 
+              style={{
+                boxShadow: t.shadowLg, 
+                border: `1px solid ${t.border}`, 
+                backgroundImage: `url(${howHiringWorksThumbnail})`,
+              }}
+              className="group h-full flex items-center justify-center rounded-16 overflow-hidden bg-cover"
+            >
+              <PlayIcon className="size-120 opacity-50 group-hover:opacity-100 group-hover:opacity-75 scale-75 group-hover:scale-100 transition duration-300" style={{ color: "#fff" }} />
             </div>
           </Link>
         </section>
